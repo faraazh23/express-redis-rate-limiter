@@ -14,7 +14,9 @@ function rateLimiter(req, res, next) {
   const key = `rate-limit:${ip}`;
 
   redis.incr(key, (err, count) => {
-    if (err) return res.status(500).send("Internal error");
+    if (err) {
+      return res.status(500).send("Internal error");
+    }  
 
     if (count === 1) {
       redis.expire(key, WINDOW);
